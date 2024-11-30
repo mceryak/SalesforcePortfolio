@@ -33,7 +33,7 @@ const flattenNode = function(node, keyPrefix='', curField='', flattenToMapping={
 
     // check if this node is a child relationship
     if (Object.prototype.hasOwnProperty.call(node, 'edges')) { 
-        return { [key]: node.edges.map(edge => flattenNode(edge.node))}; // reset keyPrefix for child object
+        return { [key]: node.edges.map(edge => flattenNode(edge.node, '', '', flattenToMapping))}; // reset keyPrefix for child object
     }
 
     // node must be a parent relationship, so parse all the returned fields of the parent

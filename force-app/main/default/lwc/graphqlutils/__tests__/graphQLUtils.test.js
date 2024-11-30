@@ -13,13 +13,18 @@ describe('c-graph-ql-utils', () => {
         expect(res.Account[0].Name).toBe('Edge Communications');
     });
 
-    it('tests parent/child relationships, multiple objects, polymorphic relations with flattenQueryResult()', () => {
-        const json = '{"data":{"uiapi":{"query":{"Account":{"edges":[{"node":{"Id":"001aj00000iCo3CAAS","Name":{"value":"Edge Communications"},"Parent":{"Id": "001aj00000iKbFdAAK","ApiName":"Account","Name":{"value":"Trailblazer Express"},"Owner":{"ApiName":"User","Name":{"value":"Gandalf Stormcrow"}}},"Contacts":{"edges":[{"node":{"Name":{"value":"Rose Gonzalez"},"Owner":{"Name":{"value":"Gandalf Stormcrow"}}}},{"node":{"Name":{"value":"Sean Forbes"},"Owner":{"Name":{"value":"Gandalf Stormcrow"}}}}]}}}]},"Case":{"edges":[{"node":{"Owner":{"ApiName":"User","Username":{"value":"gstormcrow@youshallnotpass.com"}}}},{"node":{"Owner":{"ApiName":"Group","DeveloperName":{"value":"Case_Queue"}}}}]}}}},"errors":[]}';
+    it('tests flattenTo, parent/child relationships, multiple objects, polymorphic relations with flattenQueryResult()', () => {
+        const json = '{"data":{"uiapi":{"query":{"Opportunity":{"edges":[{"node":{"Amount":{"value":15000.0,"format":"$15,000.00"},"StageName":{"value":"Qualification","displayValue":"Qualification"}}}]},"Account":{"edges":[{"node":{"Id":"001aj00000iCo3CAAS","Name":{"value":"Edge Communications"},"Parent":{"Id":"001aj00000iKbFdAAK","ApiName":"Account","Name":{"value":"Trailblazer Express"},"Owner":{"ApiName":"User","Name":{"value":"Gandalf Stormcrow"}}},"Contacts":{"edges":[{"node":{"Name":{"value":"Rose Gonzalez"},"Owner":{"Name":{"value":"Gandalf Stormcrow"}}}},{"node":{"Name":{"value":"Sean Forbes"},"Owner":{"Name":{"value":"Gandalf Stormcrow"}}}}]}}}]},"Case":{"edges":[{"node":{"Owner":{"ApiName":"User","Username":{"value":"gstormcrow@youshallnotpass.com"}}}},{"node":{"Owner":{"ApiName":"Group","DeveloperName":{"value":"Case_Queue"}}}}]}}}},"errors":[]}';
         const gqlResult = JSON.parse(json);
 
-        const res = flattenQueryResult(gqlResult.data.uiapi.query);
+        const res = flattenQueryResult(gqlResult.data.uiapi.query, { StageName: 'displayValue', Amount: 'format' });
         
         expect(res).toBeDefined();
+
+        expect(res.Opportunity.length).toBe(1);
+        expect(res.Opportunity[0].Amount).toBe('$15,000.00');
+        expect(res.Opportunity[0].StageName).toBe('Qualification');
+
         expect(res.Account[0].Id).toBe('001aj00000iCo3CAAS');
         expect(res.Account[0].Name).toBe('Edge Communications');
         expect(res.Account[0].ParentName).toBe('Trailblazer Express');
