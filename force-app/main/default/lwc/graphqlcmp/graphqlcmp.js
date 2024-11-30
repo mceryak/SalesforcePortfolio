@@ -2,6 +2,7 @@ import { LightningElement, wire } from 'lwc';
 import { graphql, gql, refreshGraphQL } from 'lightning/uiGraphQLApi';
 import NAME_FIELD from '@salesforce/schema/Account.Name';
 import NO_OF_LOCATIONS_FIELD from '@salesforce/schema/Account.NumberofLocations__c';
+import { flattenQueryResult } from 'c/graphqlutils/mapaccounts';
 
 const pageSize = 5;
 const DELAY = 300;
@@ -28,13 +29,13 @@ export default class Graphqlcmp extends LightningElement {
 
     get query() {
         return gql`
-        query searchAccounts($name: String!, $pageSize: Int = 5, $after: String) {
+        query searchAccounts($name: String!, $pageSize: Int = 5, $accountCursor: String, $contactCursor: String) {
             uiapi {
                 query {
                     Account(
                         where: { Name: { like: $name } }
                         first: $pageSize
-                        after: $after
+                        after: $accountCursor
                         orderBy: { Name: { order: ASC } }
                     ) {
                         edges {
@@ -45,13 +46,13 @@ export default class Graphqlcmp extends LightningElement {
                                 Owner { # child-to-parent relationship
                                     Name { value }
                                 }
-                                Contacts { # parent-to-child relationship
-                                    edges {
-                                        node {
-                                            Name { value }
-                                        }
-                                    }
-                                }
+                                #Contacts { # parent-to-child relationship
+                                #    edges {
+                                #        node {
+                                #            Name { value }
+                                #        }
+                                #    }
+                                #}
                             }
                         }
                         pageInfo {
@@ -62,6 +63,19 @@ export default class Graphqlcmp extends LightningElement {
                         }
                         totalCount
                         pageResultCount
+                    }
+                    Contact(
+                        where: { Name: { like: $name } }
+                        first: $pageSize
+                        after: $contactCursor
+                        orderBy: { Name: { order: ASC } }
+                    ) { 
+                        edges {
+                            node {
+                                Name { value }
+                                Account { Name { value } }
+                            }
+                        }
                     }
                 }
             }
@@ -81,12 +95,7 @@ export default class Graphqlcmp extends LightningElement {
         }
         if (data) {
             this.pageInfo = data.uiapi.query.Account.pageInfo;
-            this.accounts = data.uiapi.query.Account.edges.map((edge) => ({
-                Id: edge.node.Id,
-                Name: edge.node.Name.value,
-                NumberofLocations__c: edge.node.NumberofLocations__c.value
-                // ContactName: edge.node.Contact.Name.value
-            }));
+            this.accounts = flattenQueryResult(data.uiapi.query);
         }
     }
 
