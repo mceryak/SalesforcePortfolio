@@ -20,6 +20,7 @@ export default class GraphQLDemo extends LightningElement {
     @track cursorMap = {};
 
     handleSearchKeyChange(e) {
+        this.cursorMap = {}; // reset to page 1 results
         this.searchKey = e.detail.value;
     }
     handleActiveTab(e) {
