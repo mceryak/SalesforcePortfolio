@@ -1,0 +1,13 @@
+<template>
+    <lightning-layout horizontal-align="spread" vertical-align="center" class="slds-var-p-around_small">
+        <lightning-layout-item>
+            <lightning-button-icon icon-name="utility:chevronleft" disabled={isFirstPage} onclick={handlePrevious}></lightning-button-icon>
+        </lightning-layout-item>
+        <lightning-layout-item>
+            <p>Page {curPage} of {totalPages}</p>
+        </lightning-layout-item>
+        <lightning-layout-item>
+            <lightning-button-icon icon-name="utility:chevronright" disabled={isLastPage} onclick={handleNext}></lightning-button-icon>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
