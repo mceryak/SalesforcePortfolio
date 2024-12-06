@@ -87,6 +87,13 @@ export default class GraphQLDemo extends LightningElement {
         this.isLoading = true;
     }
 
+    selectedRow;
+    handleRowSelection(e) {
+        const { selectedRows } = e.detail;
+        console.log(JSON.stringify(selectedRows));
+        this.selectedRow = selectedRows.length ? selectedRows[0] : null;
+    }
+
     get accContactTestQuery() {
         return gql`
         query Accounts($searchKey: String!, $first: Int=10, $accountCursor: String, $contactCursor: String, $testObjectCursor: String) {
@@ -101,6 +108,24 @@ export default class GraphQLDemo extends LightningElement {
                             node {
                                 Id
                                 Name { value }
+                                Contacts {
+                                    edges {
+                                        node {
+                                            Id
+                                            Name { value }
+                                            Owner {
+                                                Name {
+                                                    value
+                                                }
+                                            }
+                                        }
+                                    }
+                                    totalCount
+                                    pageInfo {
+                                        endCursor
+                                        hasNextPage
+                                    }
+                                }
                             }
                         }
                         totalCount

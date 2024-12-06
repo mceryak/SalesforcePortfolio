@@ -1,0 +1,17 @@
+<template>
+    <lightning-card title={title}>
+        <div class="slds-var-p-around_medium">
+            <lightning-tabset>
+                <template for:each={tabs} for:item="tab">
+                    <lightning-tab label={tab.tabLabel} key={tab.tabValue}>
+                        <lightning-datatable
+                            key-field="Id"
+                            data={tab.records}
+                            columns={tab.columns}
+                        ></lightning-datatable>
+                    </lightning-tab>
+                </template>
+            </lightning-tabset>
+        </div>
+    </lightning-card>
+</template>

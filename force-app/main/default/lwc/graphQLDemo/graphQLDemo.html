@@ -23,31 +23,21 @@
             <lightning-tabset active-tab-value={activeTab}>
                 <template for:each={tabs} for:item="tab">
                     <lightning-tab label={tab.tabLabel} value={tab.tabValue} onactive={handleActiveTab} key={tab.tabValue}>
+                        <!-- <c-gql-tab-table tab={tab}></c-gql-tab-table> -->
                         <lightning-datatable
                             key-field="Id"
                             columns={tab.columns}
                             data={tab.records}
+                            max-row-selection="1"
+                            onrowselection={handleRowSelection}
                         ></lightning-datatable>
                         <c-page-controls cursor={tab.cursor} cursor-id={tab.tabValue} page-size={pageSize} total={tab.total} oncursorchange={handleCursorChange}></c-page-controls>
                     </lightning-tab>
                 </template>
-                <!-- <lightning-tab label={accountsTabLabel} value="Account" onactive={handleActiveTab}>
-                    <c-accounts-tab accounts={accounts}></c-accounts-tab>
-                </lightning-tab>
-                
-                <lightning-tab label={contactsTabLabel} value="Contact" onactive={handleActiveTab}>
-                    <c-contacts-tab contacts={contacts}></c-contacts-tab>
-                </lightning-tab>
-
-                <lightning-tab label={testObjectsTabLabel} value="TestObject__c" onactive={handleActiveTab}>
-                    <c-test-objects-tab test-objects={testObjects}></c-test-objects-tab>
-                </lightning-tab> -->
             </lightning-tabset>
-
-
-            
         </div>
-
-        
     </lightning-card>
+    <template lwc:if={selectedRow}>
+        <c-gql-child-details gql-record={selectedRow}></c-gql-child-details>
+    </template>
 </template>

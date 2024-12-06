@@ -6,6 +6,7 @@ import testObjectColumns from "./testObjectColumns";
 const columnsMapping = {
     'Account': accountColumns,
     'Contact': contactColumns,
+    'Contacts': contactColumns,
     'TestObject__c': testObjectColumns
 }
 

@@ -1,13 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 
-const PageChange = Object.freeze({
-    NEXT: -1,
-    BACK: -3
-});
 export default class PageControls extends LightningElement {
-
-
-    // TODO: implement pagination
 
     @api cursor;
     @api cursorId;
@@ -16,10 +9,6 @@ export default class PageControls extends LightningElement {
 
     @track
     _cursorStack = []
-
-    connectedCallback() {
-        console.log('cursor stack for ' + this.cursorId + ' = ' + JSON.stringify(this._cursorStack));
-    }
 
     @api resetCursorStack() {
         this._cursorStack = [];
@@ -40,7 +29,6 @@ export default class PageControls extends LightningElement {
 
     handleNext(e) {
         this._cursorStack.push(this.cursor);
-        console.log('cursor stack for ' + this.cursorId + ' = ' + JSON.stringify(this._cursorStack));
         this._dispatchCursorChangeEvent();
     }
 
