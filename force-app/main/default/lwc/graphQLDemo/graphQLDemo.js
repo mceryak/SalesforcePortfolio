@@ -90,7 +90,6 @@ export default class GraphQLDemo extends LightningElement {
     selectedRow;
     handleRowSelection(e) {
         const { selectedRows } = e.detail;
-        console.log(JSON.stringify(selectedRows));
         this.selectedRow = selectedRows.length ? selectedRows[0] : null;
     }
 
@@ -108,6 +107,11 @@ export default class GraphQLDemo extends LightningElement {
                             node {
                                 Id
                                 Name { value }
+                                AccountSource { value }
+                                Active__c { value }
+                                Owner {
+                                    Name { value }
+                                }
                                 Contacts {
                                     edges {
                                         node {
