@@ -1,4 +1,3 @@
-
 export default [
     { label: 'Name', fieldName: 'Name' },
     // { label: 'Best Friend', fieldName: 'BestAccountFriendName' },

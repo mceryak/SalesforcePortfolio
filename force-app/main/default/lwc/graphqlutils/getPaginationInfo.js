@@ -1,4 +1,3 @@
-
 // const getPaginationInfo = function(queryResult, curPaginationInfo) {
 //     return Object.keys(queryResult).reduce((acc, key) => {
 //         return Object.assign(acc, {

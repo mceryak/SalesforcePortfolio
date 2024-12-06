@@ -21,6 +21,10 @@ export default class PageControls extends LightningElement {
         console.log('cursor stack for ' + this.cursorId + ' = ' + JSON.stringify(this._cursorStack));
     }
 
+    @api resetCursorStack() {
+        this._cursorStack = [];
+    }
+
     get curPage() { return (this._cursorStack.length) + 1; }
     get totalPages() { return Math.max(1, Math.ceil(this.total / this.pageSize)); }
     get hasNext() { return this.curPage < this.totalPages; }

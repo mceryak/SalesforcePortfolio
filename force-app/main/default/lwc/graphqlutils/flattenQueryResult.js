@@ -1,13 +1,9 @@
-
-
-
-
 const flattenNode = function(node, keyPrefix='', curField='', flattenToMapping={}, columnsMapping={}) {
     const key = keyPrefix + curField;
     const flattenTo = flattenToMapping[curField] ?? 'value';
 
     // catch Id field or any potential field that doesn't have sub-selections
-    if (typeof node !== 'object') {
+    if (!node || typeof node !== 'object') {
         return { [key]: node }
     }
 

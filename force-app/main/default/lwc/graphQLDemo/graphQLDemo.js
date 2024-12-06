@@ -3,7 +3,6 @@ import { gql, graphql, refreshGraphQL } from 'lightning/uiGraphQLApi';
 import { flattenQueryResult } from 'c/graphQLUtils';
 import { columnsMapping } from 'c/dataTableColumnsUtil';
 
-
 export default class GraphQLDemo extends LightningElement {
 
     isLoading = true;
@@ -19,16 +18,26 @@ export default class GraphQLDemo extends LightningElement {
 
     @track cursorMap = {};
 
+    timer;
     handleSearchKeyChange(e) {
-        this.cursorMap = {}; // reset to page 1 results
-        this.searchKey = e.detail.value;
+        if (this.timer) {
+            clearTimeout(this.timer);
+        }
+        const func = () => {
+            this.resetCursorStacks();
+            this.searchKey = e.detail.value;
+        };
+        // eslint-disable-next-line @lwc/lwc/no-async-operation
+        this.timer = setTimeout(func.apply(this), 1000);
     }
+
     handleActiveTab(e) {
         this.activeTabKey = e.target.value;
     }
 
     async refresh(e) {
         this.isLoading = true;
+        this.resetCursorStacks();
         try {
             await refreshGraphQL(this.gqlResult);
         } catch (e) {
@@ -36,6 +45,15 @@ export default class GraphQLDemo extends LightningElement {
         } finally {
             this.isLoading = false;
         }
+    }
+
+    resetCursorStacks() {
+        this.cursorMap = {};
+        const elems = this.template.querySelectorAll('c-page-controls');
+        console.log('elems length: ' + elems.length);
+        elems.forEach(elem => {
+            elem.resetCursorStack();
+        })
     }
 
     @wire(graphql, {
