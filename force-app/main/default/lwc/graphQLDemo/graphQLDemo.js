@@ -18,17 +18,9 @@ export default class GraphQLDemo extends LightningElement {
 
     @track cursorMap = {};
 
-    timer;
     handleSearchKeyChange(e) {
-        if (this.timer) {
-            clearTimeout(this.timer);
-        }
-        const func = () => {
-            this.resetCursorStacks();
-            this.searchKey = e.detail.value;
-        };
-        // eslint-disable-next-line @lwc/lwc/no-async-operation
-        this.timer = setTimeout(func.apply(this), 1000);
+        this.resetCursorStacks();
+        this.searchKey = e.detail.value;
     }
 
     handleActiveTab(e) {

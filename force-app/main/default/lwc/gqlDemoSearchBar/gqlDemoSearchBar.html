@@ -1,0 +1,10 @@
+<template>
+    <lightning-layout vertical-align="end" class="slds-var-p-around_small">
+        <lightning-layout-item size="11">
+            <lightning-input label="Search Records By Name" value={searchKey} onchange={handleSearchKeyChange}></lightning-input>
+        </lightning-layout-item>
+        <lightning-layout-item size="1" class="slds-var-p-left_small">
+            <lightning-button-icon icon-name="utility:refresh" onclick={refresh}></lightning-button-icon>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

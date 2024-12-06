@@ -7,14 +7,7 @@
 
         <div class="slds-var-p-around_medium">
 
-            <lightning-layout vertical-align="end" class="slds-var-p-around_small">
-                <lightning-layout-item size="11">
-                    <lightning-input label="Search Accounts/Contacts By Name" value={searchKey} onchange={handleSearchKeyChange}></lightning-input>
-                </lightning-layout-item>
-                <lightning-layout-item size="1" class="slds-var-p-left_small">
-                    <lightning-button-icon icon-name="utility:refresh" onclick={refresh}></lightning-button-icon>
-                </lightning-layout-item>
-            </lightning-layout>
+            <c-gql-demo-search-bar onsearchkeychange={handleSearchKeyChange} onrefresh={refresh}></c-gql-demo-search-bar>
 
             <template lwc:if={errorMsg}>
                 <p class="error">{errorMsg}</p>
