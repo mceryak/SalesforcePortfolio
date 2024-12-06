@@ -126,6 +126,21 @@ export default class GraphQLDemo extends LightningElement {
                                         hasNextPage
                                     }
                                 }
+                                Opportunities {
+                                    edges {
+                                        node {
+                                            Id
+                                            Name { value }
+                                            ExpectedRevenue { format }
+                                            Amount { format }
+                                        }
+                                    }
+                                    totalCount
+                                    pageInfo {
+                                        endCursor
+                                        hasNextPage
+                                    }
+                                }
                             }
                         }
                         totalCount

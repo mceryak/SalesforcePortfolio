@@ -1,6 +1,7 @@
+const leafNodeFields = ['format', 'displayValue', 'value'];
+
 const flattenNode = function(node, keyPrefix='', curField='', flattenToMapping={}, columnsMapping={}) {
     const key = keyPrefix + curField;
-    const flattenTo = flattenToMapping[curField] ?? 'value';
 
     // catch Id field or any potential field that doesn't have sub-selections
     if (!node || typeof node !== 'object') {
@@ -8,8 +9,9 @@ const flattenNode = function(node, keyPrefix='', curField='', flattenToMapping={
     }
 
     // check if we are at leaf node
-    if (Object.prototype.hasOwnProperty.call(node, flattenTo)) {
-        return { [key]: node[flattenTo] };
+    // if (Object.prototype.hasOwnProperty.call(node, flattenTo)) {
+        if (Object.keys(node).some(k => leafNodeFields.includes(k))) {
+        return { [key]: node[flattenToMapping[curField]] ?? leafNodeFields.reduce((acc, f) => acc ?? node[f], null) };
     }
 
     // check if this node is a child relationship
@@ -19,7 +21,7 @@ const flattenNode = function(node, keyPrefix='', curField='', flattenToMapping={
             total: node.totalCount,
             // pageInfo: node.pageInfo,
             cursor: node.pageInfo?.endCursor,
-            tabLabel: `${key} (${node.totalCount ?? 0})`,
+            tabLabel: `${key} (${node.totalCount ?? ''})`,
             tabValue: key,
             columns: columnsMapping[key] ?? []
         }
