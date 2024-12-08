@@ -1,0 +1,15 @@
+<template>
+    <lightning-tabset>
+        <template for:each={tabs} for:item="tab">
+            <lightning-tab label={tab.tabLabel} key={tab.tabValue}>
+                <c-gql-demo-table-tab 
+                    tab={tab} 
+                    page-size={pageSize} 
+                    max-row-selection={maxRowSelection} 
+                    onpagechange={handlePageChange}
+                    onrowselection={handleRowSelection}
+                ></c-gql-demo-table-tab>
+            </lightning-tab>
+        </template>
+    </lightning-tabset>
+</template>

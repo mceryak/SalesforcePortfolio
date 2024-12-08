@@ -1,0 +1,10 @@
+<template>
+    <lightning-datatable
+        key-field="Id"
+        columns={tab.columns}
+        data={tab.records}
+        max-row-selection={maxRowSelection}
+        onrowselection={handleRowSelection}
+    ></lightning-datatable>
+    <c-page-controls lwc:ref="pagecontrols" cursor={tab.cursor} page-size={pageSize} total={tab.total} oncursorchange={handleCursorChange}></c-page-controls>
+</template>

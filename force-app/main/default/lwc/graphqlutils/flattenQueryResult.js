@@ -38,7 +38,6 @@ const flattenNode = function(node, keyPrefix='', curField='', flattenToMapping={
 // - maps the field name to the leaf ValueType
 const flattenQueryResult = function(queryResult, flattenToMapping, columnsMapping) {
     const objResult = flattenNode(queryResult, '', '', flattenToMapping, columnsMapping);
-    console.log('got result');
     return Object.keys(objResult).map(key => objResult[key])
 }
 

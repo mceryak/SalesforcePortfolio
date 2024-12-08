@@ -1,5 +1,5 @@
 import { flattenQueryResult } from "./flattenQueryResult";
 import { debounce } from "./debounce";
-// import { getPaginationInfo } from "./getPaginationInfo";
+import shallowEqual from "./shallowEqual";
 
-export { flattenQueryResult, debounce }
+export { flattenQueryResult, debounce, shallowEqual }

@@ -3,7 +3,7 @@ import { LightningElement, api, track } from 'lwc';
 export default class PageControls extends LightningElement {
 
     @api cursor;
-    @api cursorId;
+    // @api cursorId;
     @api pageSize = 10;
     @api total;
 
@@ -33,7 +33,7 @@ export default class PageControls extends LightningElement {
     }
 
     _dispatchCursorChangeEvent() {
-        this.dispatchEvent(new CustomEvent('cursorchange', { detail: { cursorId: this.cursorId, cursor: this._cursorStack.at(-1) }}));
+        this.dispatchEvent(new CustomEvent('cursorchange', { detail: {  cursor: this._cursorStack.at(-1) }}));
     }
 
 }

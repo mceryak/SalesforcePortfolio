@@ -1,36 +1,34 @@
 <template>
-    <lightning-card title="GraphQL Demo">
+    
+    <lightning-layout>
+        <lightning-layout-item size="8">
+            <lightning-card title="GraphQL Demo">
 
-        <template lwc:if={isLoading}>
-            <lightning-spinner alternative-text="loading"></lightning-spinner>
-        </template>
-
-        <div class="slds-var-p-around_medium">
-
-            <c-gql-demo-search-bar onsearchkeychange={handleSearchKeyChange} onrefresh={refresh}></c-gql-demo-search-bar>
-
-            <template lwc:if={errorMsg}>
-                <p class="error">{errorMsg}</p>
-            </template>
-
-            <lightning-tabset active-tab-value={activeTab}>
-                <template for:each={tabs} for:item="tab">
-                    <lightning-tab label={tab.tabLabel} value={tab.tabValue} onactive={handleActiveTab} key={tab.tabValue}>
-                        <!-- <c-gql-tab-table tab={tab}></c-gql-tab-table> -->
-                        <lightning-datatable
-                            key-field="Id"
-                            columns={tab.columns}
-                            data={tab.records}
+                <c-gql-demo-query lwc:ref="query" ongqlresult={handleGQLResult} variables={variables}></c-gql-demo-query>            
+        
+                <div class="slds-var-p-around_medium">
+        
+                    <c-gql-demo-search-bar onsearchkeychange={handleSearchKeyChange} onrefresh={refresh}></c-gql-demo-search-bar>
+        
+                    <template lwc:if={errorMsg}>
+                        <p class="error">{errorMsg}</p>
+                    </template>
+        
+                    <template lwc:if={tabs}>
+                        <c-gql-demo-table-tabset 
+                            lwc:ref="tabset"
+                            tabs={tabs} 
+                            page-size={pageSize} 
                             max-row-selection="1"
+                            onpagechange={handlePageChange}
                             onrowselection={handleRowSelection}
-                        ></lightning-datatable>
-                        <c-page-controls cursor={tab.cursor} cursor-id={tab.tabValue} page-size={pageSize} total={tab.total} oncursorchange={handleCursorChange}></c-page-controls>
-                    </lightning-tab>
-                </template>
-            </lightning-tabset>
-        </div>
-    </lightning-card>
-    <template lwc:if={selectedRow}>
-        <c-gql-child-details gql-record={selectedRow}></c-gql-child-details>
-    </template>
+                        ></c-gql-demo-table-tabset>
+                    </template>
+                </div>
+            </lightning-card>
+        </lightning-layout-item>
+        <lightning-layout-item size="4" class="slds-var-p-left_small">
+            <c-gql-child-details gql-record={selectedRow}></c-gql-child-details>
+        </lightning-layout-item>
+    </lightning-layout>
 </template>

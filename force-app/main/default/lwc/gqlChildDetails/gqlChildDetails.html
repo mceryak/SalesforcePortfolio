@@ -1,17 +1,14 @@
 <template>
-    <lightning-card title={title}>
-        <div class="slds-var-p-around_medium">
-            <lightning-tabset>
-                <template for:each={tabs} for:item="tab">
-                    <lightning-tab label={tab.tabLabel} key={tab.tabValue}>
-                        <lightning-datatable
-                            key-field="Id"
-                            data={tab.records}
-                            columns={tab.columns}
-                        ></lightning-datatable>
-                    </lightning-tab>
-                </template>
-            </lightning-tabset>
-        </div>
+    <lightning-card title={title} class="slds-var-p_top-small">
+        <template lwc:if={gqlRecord}>
+            <div class="slds-var-p-around_medium">
+                <lightning-record-form
+                    object-api-name={gqlRecord.ApiName}
+                    record-id={gqlRecord.Id}
+                    layout-type="Full"
+                    columns="1"
+                ></lightning-record-form>
+            </div>
+        </template>
     </lightning-card>
 </template>
